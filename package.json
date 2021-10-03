@@ -3,6 +3,7 @@
   "license": "BSD-3-Clause",
   "scripts": {
     "run": "hardhat run scripts/run.ts",
+    "compile": "hardhat compile",
     "deploy:rinkeby": "hardhat run scripts/deploy.ts --network rinkeby"
   },
   "devDependencies": {
