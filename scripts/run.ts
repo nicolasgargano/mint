@@ -1,15 +1,21 @@
 import { ethers } from "hardhat"
-import { AnimatedNFT__factory } from "../typechain"
+import { RandomWordsNFT__factory } from "../typechain"
 
 const main = async () => {
   const [owner] = await ethers.getSigners()
-  const nftContractFactory = new AnimatedNFT__factory(owner)
+  const nftContractFactory = new RandomWordsNFT__factory(owner)
   const nftContract = await nftContractFactory.deploy()
   await nftContract.deployed()
   console.log("Contract deployed to:", nftContract.address)
 
   const tx = await nftContract.makeAnNFT()
   await tx.wait()
+
+  const tx2 = await nftContract.makeAnNFT()
+  await tx2.wait()
+
+  const tx3 = await nftContract.makeAnNFT()
+  await tx3.wait()
 }
 
 const runMain = async () => {
