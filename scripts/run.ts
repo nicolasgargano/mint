@@ -1,9 +1,9 @@
-import { NFT__factory } from "../typechain"
 import { ethers } from "hardhat"
+import { AnimatedNFT__factory } from "../typechain"
 
 const main = async () => {
   const [owner] = await ethers.getSigners()
-  const nftContractFactory = new NFT__factory(owner)
+  const nftContractFactory = new AnimatedNFT__factory(owner)
   const nftContract = await nftContractFactory.deploy()
   await nftContract.deployed()
   console.log("Contract deployed to:", nftContract.address)
