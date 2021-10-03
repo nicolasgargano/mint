@@ -1,3 +1,9 @@
+# nfts
+
+Learning about nfts based on the free course by [buildspace.so](https://buildspace.so/)
+
+---
+_Note: The following is the unmodified README template from a hardhat advanced project._
 # Advanced Sample Hardhat Project
 
 This project demonstrates an advanced Hardhat use case, integrating other tools commonly used alongside Hardhat in the ecosystem.
