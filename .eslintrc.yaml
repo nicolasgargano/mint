@@ -1,0 +1,36 @@
+env:
+  browser: false
+  es2021: true
+  mocha: true
+  node: true
+plugins:
+  - '@typescript-eslint'
+extends:
+  - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'prettier'
+parser: '@typescript-eslint/parser'
+rules:
+  linebreak-style:
+    - error
+    - unix
+  quotes:
+    - error
+    - double
+  semi:
+    - error
+    - never
+overrides:
+  - files:
+      - "hardhat.config.ts"
+    globals:
+      task: true
+  - files:
+      - "scripts/**"
+    rules: { "no-process-exit": "off" }
+  - files:
+      - "hardhat.config.ts"
+      - "scripts/**"
+      - "test/**"
+    rules:
+      "node/no-unpublished-require": "off"
