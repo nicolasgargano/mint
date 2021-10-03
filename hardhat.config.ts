@@ -29,6 +29,7 @@ const MNEMONIC = process.env.MNEMONIC || ""
 const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || ""
 const INFURA_API_KEY = process.env.INFURA_API_KEY || ""
 const ALCHEMY_KEY = process.env.ALCHEMY_KEY || ""
+const PRIVATE_ACCOUNT_KEY = process.env.PRIVATE_ACCOUNT_KEY || ""
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html
@@ -39,22 +40,6 @@ task("accounts", "Prints the list of accounts", async (args, hre) => {
     console.log(await account.getAddress())
   }
 })
-
-function createTestnetConfig(
-  network: keyof typeof chainIds,
-): NetworkUserConfig {
-  const url: string = "https://" + network + ".infura.io/v3/" + INFURA_API_KEY
-  return {
-    accounts: {
-      count: 10,
-      initialIndex: 0,
-      mnemonic: MNEMONIC,
-      path: "m/44'/60'/0'/0",
-    },
-    chainId: chainIds[network],
-    url,
-  }
-}
 
 // You need to export an object to set up your config
 // Go to https://hardhat.org/config/ to learn more
@@ -68,11 +53,10 @@ const config: HardhatUserConfig = {
       },
       chainId: chainIds.hardhat,
     },
-    mainnet: createTestnetConfig("mainnet"),
-    goerli: createTestnetConfig("goerli"),
-    kovan: createTestnetConfig("kovan"),
-    rinkeby: createTestnetConfig("rinkeby"),
-    ropsten: createTestnetConfig("ropsten"),
+    rinkeby: {
+      url: ALCHEMY_KEY,
+      accounts: [PRIVATE_ACCOUNT_KEY],
+    },
   },
   solidity: {
     compilers: [
