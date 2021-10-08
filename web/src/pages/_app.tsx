@@ -13,6 +13,7 @@ if (process.env.NODE_ENV === 'production') {
     ssr: false,
   })
 } else {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   LCanvas = require('@/components/layout/canvas').default
 }
 
@@ -21,8 +22,8 @@ function Layout({ dom }) {
 }
 
 const ForwardPropsToR3fComponent = ({ comp, pageProps }) => {
-  let r3fArr = []
-  let compArr = []
+  const r3fArr = []
+  const compArr = []
 
   try {
     Children.forEach(comp(pageProps).props.children, (child) => {
@@ -46,7 +47,7 @@ const ForwardPropsToR3fComponent = ({ comp, pageProps }) => {
   }
 }
 
-function App({ Component, pageProps = { title: 'index' } }) {
+const App = ({ Component, pageProps = { title: 'index' } }) => {
   const router = useRouter()
   useEffect(() => {
     useStore.setState({ router })

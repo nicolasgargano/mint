@@ -1,0 +1,15 @@
+{
+  "name": "generated-types",
+  "devDependencies": {},
+  "version": "1.0.0",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolasgargano/nfts.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nicolasgargano/nfts/issues"
+  },
+  "homepage": "https://github.com/nicolasgargano/nfts#readme"
+}

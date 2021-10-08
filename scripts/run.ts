@@ -1,5 +1,6 @@
 import { ethers } from "hardhat"
-import { RandomWordsNFT__factory } from "../typechain"
+import { RandomWordsNFT__factory } from "../generated-types/typechain"
+import { BigNumber } from "ethers"
 
 const main = async () => {
   const [owner] = await ethers.getSigners()

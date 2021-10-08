@@ -74,7 +74,7 @@ const config: HardhatUserConfig = {
     // enabled: process.env.REPORT_GAS ? true : false,
   },
   typechain: {
-    outDir: "typechain",
+    outDir: "./generated-types/typechain",
     target: "ethers-v5",
   },
 }
