@@ -1,6 +1,6 @@
 # nfts
 
-Learning about nfts based on the free course by [buildspace.so](https://buildspace.so/)
+Learning about nfts based on the free course by [buildspace.so](https://buildspace.so/build-nfts)
 
 ---
 _Note: The following is the unmodified README template from a hardhat advanced project._
