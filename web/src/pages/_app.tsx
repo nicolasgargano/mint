@@ -7,12 +7,14 @@ import Dom from '@/components/layout/dom'
 
 import '@/styles/index.css'
 
+
 let LCanvas = null
 if (process.env.NODE_ENV === 'production') {
   LCanvas = dynamic(() => import('@/components/layout/canvas'), {
     ssr: false,
   })
 } else {
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
   LCanvas = require('@/components/layout/canvas').default
 }
 

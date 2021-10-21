@@ -8,7 +8,7 @@ export default function Instructions() {
       }}
     >
       <p className='hidden mb-8 md:block'>
-        This is a minimal starter for Nextjs + Threejs. Click on the cube to
+        This is a minimal starter for Nextjsssssssss + Threejs. Click on the cube to
         navigate to the `/box` page. OrbitControls is enabled by default.
       </p>
       <div className='tracking-wider'>

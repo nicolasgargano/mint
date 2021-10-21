@@ -7,12 +7,13 @@ import guid from 'short-uuid'
 
 // @ts-ignore
 import vertex from './glsl/shader.vert'
+// @ts-ignore
 import fragment from './glsl/shader.frag'
 
 const ColorShiftMaterial = shaderMaterial(
   {
     time: 0,
-    color: new THREE.Color(0.05, 0.0, 0.025),
+    color: new THREE.Color(0.05, 1, 0.025),
   },
   vertex,
   fragment
@@ -20,6 +21,7 @@ const ColorShiftMaterial = shaderMaterial(
 
 // This is the 🔑 that HMR will renew if this file is edited
 // It works for THREE.ShaderMaterial as well as for drei/shaderMaterial
+// @ts-ignore
 ColorShiftMaterial.key = guid.generate()
 
 extend({ ColorShiftMaterial })

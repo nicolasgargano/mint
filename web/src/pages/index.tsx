@@ -31,7 +31,7 @@ const Page = () => {
   return (
     <>
       <DOM />
-      <R3F r3f />
+      <R3F />
     </>
   )
 }
