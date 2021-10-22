@@ -1,5 +1,6 @@
 {
   "include": ["./scripts", "./test", "./typechain"],
+  "exclude": ["./web"],
   "files": ["./hardhat.config.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
