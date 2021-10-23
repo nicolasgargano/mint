@@ -3,6 +3,8 @@
 Learning about nfts, based on the [nft course](https://buildspace.so/build-nfts) 
 by buildspace.
 
+Trying to replicate [this](https://linear.app/releases/2021-06) 3D scene by the Linear team.
+
 ---
 _Note: The following is the unmodified README template from a hardhat advanced project._
 # Advanced Sample Hardhat Project
