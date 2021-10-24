@@ -47,8 +47,6 @@ const HomeScene = () => {
   )
 }
 
-const redish = 0xff4444
-
 const ScrollingTerrain = () => {
   const planeControls = useControls("Plane Controls", {
     size: 20,
