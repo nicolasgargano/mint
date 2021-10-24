@@ -1,15 +1,20 @@
+import { OrbitControls } from "@react-three/drei"
+import { Suspense, useCallback, useLayoutEffect, useRef } from "react"
+import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import {
-  Box,
-  Icosahedron,
-  OrbitControls,
-  Plane,
-  Tetrahedron,
-} from "@react-three/drei"
-import { Suspense, useLayoutEffect, useRef } from "react"
-import { Canvas, useThree } from "@react-three/fiber"
-import { DirectionalLight } from "three"
+  DirectionalLight,
+  DirectionalLightHelper,
+  Group,
+  PointLight,
+  PointLightHelper,
+  SpotLight,
+  SpotLightHelper,
+} from "three"
 import { useControls } from "leva"
-import { array, nonEmptyArray } from "fp-ts"
+import { Terrain } from "../components/Terrain"
+import { redish } from "../util/colors"
+import { TransformControls } from "three/examples/jsm/controls/TransformControls"
+import { terrainNoise } from "../util/terrain-noise"
 
 export const Home = () => {
   return (
@@ -22,73 +27,102 @@ export const Home = () => {
 }
 
 const HomeScene = () => {
-  const directionalLightRef = useRef<DirectionalLight>()
-
   const cameraControls = useControls("Camera Position", {
     height: 1,
     lookAt: -10,
   })
 
-  const state = useThree()
+  const t = useThree()
   useLayoutEffect(() => {
-    state.camera.position.set(0, cameraControls.height, 5)
-    state.camera.lookAt(0, 0, cameraControls.lookAt)
-  })
+    const cameraZ = 5
+    t.camera.position.set(0, cameraControls.height, cameraZ)
+    t.camera.lookAt(0, 0, cameraControls.lookAt - cameraZ - 10)
+  }, [cameraControls])
+
+  useLayoutEffect(() => {
+    const light = new SpotLight(redish, 10, 100)
+    light.position.set(0, 2, 5)
+    light.lookAt(0, 0, 0)
+
+    const helper = new SpotLightHelper(light)
+
+    // t.scene.add(light)
+    // t.scene.add(helper)
+
+    // const dir = new DirectionalLight(redish, 1)
+    // const dirHelper = new DirectionalLightHelper(dir)
+    // dir.position.set(0, 2, -1)
+    // dir.rotation.set(Math.PI / 2 - 0.25, 0, 0)
+    // t.scene.add(dir)
+    // t.scene.add(dirHelper)
+
+    const point = new PointLight(redish, 1)
+    const pointHelper = new PointLightHelper(point)
+    point.position.copy(t.camera.position)
+    t.scene.add(point)
+    t.scene.add(pointHelper)
+
+    return () => {
+      // t.scene.remove(light, helper)
+      // t.scene.remove(dir, dirHelper)
+      t.scene.remove(point, pointHelper)
+    }
+  }, [])
 
   return (
     <>
-      <directionalLight ref={directionalLightRef} position={[0, 4, 10]} />
-      {directionalLightRef.current && (
-        <directionalLightHelper args={[directionalLightRef.current]} />
-      )}
       <ScrollingTerrain />
-      {/*<OrbitControls />*/}
+      <OrbitControls />
     </>
   )
 }
 
 const ScrollingTerrain = () => {
-  const planeControls = useControls("Plane Controls", {
-    size: 20,
-    divisions: { value: 24, min: 10, max: 100, step: 2 },
-  })
+  const terrainDepth = 10
+  const terrain1Ref = useRef<Group>()
+  const terrain2Ref = useRef<Group>()
+  const terrain3Ref = useRef<Group>()
+
+  const moveTerrains = useCallback(() => {
+    if (terrain1Ref.current) {
+      terrain1Ref.current.position.z += 0.05
+      if (terrain1Ref.current.position.z >= terrainDepth)
+        terrain1Ref.current.position.z = -terrainDepth * 2
+    }
+    if (terrain2Ref.current) {
+      terrain2Ref.current.position.z += 0.05
+      if (terrain2Ref.current.position.z >= terrainDepth)
+        terrain2Ref.current.position.z = -terrainDepth * 2
+    }
+    if (terrain3Ref.current) {
+      terrain3Ref.current.position.z += 0.05
+      if (terrain3Ref.current.position.z >= terrainDepth)
+        terrain3Ref.current.position.z = -terrainDepth * 2
+    }
+  }, [terrainDepth])
+
+  useFrame(moveTerrains)
 
   return (
-    <group>
-      <gridHelper
-        args={[planeControls.size, planeControls.divisions, redish, redish]}
+    <>
+      <Terrain
+        color={redish}
+        scale={[terrainDepth, 5, terrainDepth]}
+        ref={terrain1Ref}
+        position={[0, 0, 0]}
       />
-      <Plane
-        args={[50, 50]}
-        position={[0, -0.00001, 0]}
-        rotation={[-Math.PI / 2, 0, 0]}
-      >
-        <meshBasicMaterial color={"black"} />
-      </Plane>
-      {nonEmptyArray.range(0, 10).map((_, i) => (
-        <>
-          <Icosahedron scale={[1, 3, 1]} position={[-5, 0, (i - 5) * 2]}>
-            <meshPhysicalMaterial
-              metalness={1}
-              roughness={0}
-              color={0x440000}
-            />
-          </Icosahedron>
-          <Icosahedron scale={[1, 3, 1]} position={[-5, 0, (i - 5) * 2]}>
-            <meshBasicMaterial wireframe color={redish} />
-          </Icosahedron>
-          <Icosahedron scale={[1, 3, 1]} position={[5, 0, (i - 5) * 2]}>
-            <meshPhysicalMaterial
-              metalness={1}
-              roughness={0}
-              color={0x440000}
-            />
-          </Icosahedron>
-          <Icosahedron scale={[1, 3, 1]} position={[5, 0, (i - 5) * 2]}>
-            <meshBasicMaterial wireframe color={redish} />
-          </Icosahedron>
-        </>
-      ))}
-    </group>
+      <Terrain
+        color={0x00ff00}
+        scale={[terrainDepth, 5, terrainDepth]}
+        ref={terrain2Ref}
+        position={[0, 0, -terrainDepth]}
+      />
+      <Terrain
+        color={0x0000ff}
+        scale={[terrainDepth, 5, terrainDepth]}
+        ref={terrain3Ref}
+        position={[0, 0, -terrainDepth * 2]}
+      />
+    </>
   )
 }
