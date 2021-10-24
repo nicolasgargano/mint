@@ -2,8 +2,6 @@ import { OrbitControls } from "@react-three/drei"
 import { Suspense, useCallback, useLayoutEffect, useRef } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import {
-  DirectionalLight,
-  DirectionalLightHelper,
   Group,
   PointLight,
   PointLightHelper,
@@ -24,6 +22,7 @@ import {
 export const Home = () => {
   return (
     <Canvas>
+      <fog attach="fog" args={["black", 15, 20]} />
       <Suspense fallback={null}>
         <HomeScene />
       </Suspense>
