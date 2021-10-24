@@ -1,1 +1,1 @@
-export const redish = 0xff4444
+export const redish = 0xff7070

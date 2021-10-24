@@ -34,3 +34,4 @@ overrides:
       - "test/**"
     rules:
       "node/no-unpublished-require": "off"
+      "@typescript-eslint/ban-ts-comment": "off"

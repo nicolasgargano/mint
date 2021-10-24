@@ -9,12 +9,17 @@ import {
   PointLightHelper,
   SpotLight,
   SpotLightHelper,
+  Vector2,
 } from "three"
 import { useControls } from "leva"
 import { Terrain } from "../components/Terrain"
 import { redish } from "../util/colors"
-import { TransformControls } from "three/examples/jsm/controls/TransformControls"
-import { terrainNoise } from "../util/terrain-noise"
+// @ts-ignore
+import { BlendFunction } from "postprocessing"
+import {
+  ChromaticAberration,
+  EffectComposer,
+} from "@react-three/postprocessing"
 
 export const Home = () => {
   return (
@@ -22,6 +27,12 @@ export const Home = () => {
       <Suspense fallback={null}>
         <HomeScene />
       </Suspense>
+      <EffectComposer>
+        <ChromaticAberration
+          blendFunction={BlendFunction.NORMAL}
+          offset={new Vector2(0.001, 0.001)}
+        />
+      </EffectComposer>
     </Canvas>
   )
 }
@@ -112,13 +123,13 @@ const ScrollingTerrain = () => {
         position={[0, 0, 0]}
       />
       <Terrain
-        color={0x00ff00}
+        color={redish}
         scale={[terrainDepth, 5, terrainDepth]}
         ref={terrain2Ref}
         position={[0, 0, -terrainDepth]}
       />
       <Terrain
-        color={0x0000ff}
+        color={redish}
         scale={[terrainDepth, 5, terrainDepth]}
         ref={terrain3Ref}
         position={[0, 0, -terrainDepth * 2]}
