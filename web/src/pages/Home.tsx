@@ -3,11 +3,11 @@ import { Suspense, useCallback, useLayoutEffect, useRef } from "react"
 import { Canvas, useFrame, useThree } from "@react-three/fiber"
 import {
   Group,
-  PointLight,
-  PointLightHelper,
+  Sphere,
   SpotLight,
   SpotLightHelper,
   Vector2,
+  Vector3,
 } from "three"
 import { useControls } from "leva"
 import { Terrain } from "../components/Terrain"
@@ -45,10 +45,18 @@ export const Home = () => {
   )
 }
 
+const degToRad = Math.PI / 180
+
 const HomeScene = () => {
   const cameraControls = useControls("Camera Position", {
-    height: 1,
+    height: 0.5,
     lookAt: -10,
+  })
+
+  const { lightY, lightZ, lightAngle } = useControls("Light controls", {
+    lightY: { value: 9, step: 0.2 },
+    lightZ: { value: -3, step: 0.2 },
+    lightAngle: -30,
   })
 
   const t = useThree()
@@ -60,13 +68,19 @@ const HomeScene = () => {
 
   useLayoutEffect(() => {
     const light = new SpotLight(redish, 10, 100)
-    light.position.set(0, 2, 5)
-    light.lookAt(0, 0, 0)
+    light.position.set(0, lightY, -lightZ)
 
+    const lightPos = light.position
+    light.target.position.set(
+      0,
+      lightPos.y + Math.sin(lightAngle * degToRad),
+      lightPos.z - Math.cos(lightAngle * degToRad),
+    )
+
+    light.target.updateMatrixWorld()
     const helper = new SpotLightHelper(light)
-
-    // t.scene.add(light)
-    // t.scene.add(helper)
+    t.scene.add(light)
+    t.scene.add(helper)
 
     // const dir = new DirectionalLight(redish, 1)
     // const dirHelper = new DirectionalLightHelper(dir)
@@ -75,18 +89,18 @@ const HomeScene = () => {
     // t.scene.add(dir)
     // t.scene.add(dirHelper)
 
-    const point = new PointLight(redish, 1)
-    const pointHelper = new PointLightHelper(point)
-    point.position.copy(t.camera.position)
-    t.scene.add(point)
-    t.scene.add(pointHelper)
+    // const point = new PointLight(redish, 1)
+    // const pointHelper = new PointLightHelper(point)
+    // point.position.copy(t.camera.position)
+    // t.scene.add(point)
+    // t.scene.add(pointHelper)
 
     return () => {
-      // t.scene.remove(light, helper)
+      t.scene.remove(light, helper)
       // t.scene.remove(dir, dirHelper)
-      t.scene.remove(point, pointHelper)
+      // t.scene.remove(point, pointHelper)
     }
-  }, [])
+  }, [lightY, lightZ, lightAngle])
 
   return (
     <>
