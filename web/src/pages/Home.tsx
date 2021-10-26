@@ -105,18 +105,24 @@ const ScrollingTerrain = () => {
   const moveTerrains = useCallback(() => {
     if (terrain1Ref.current) {
       terrain1Ref.current.position.z += 0.05
-      if (terrain1Ref.current.position.z >= terrainDepth)
+      if (terrain1Ref.current.position.z >= terrainDepth) {
         terrain1Ref.current.position.z = -terrainDepth * 2
+        terrain1Ref.current.scale.z *= -1
+      }
     }
     if (terrain2Ref.current) {
       terrain2Ref.current.position.z += 0.05
-      if (terrain2Ref.current.position.z >= terrainDepth)
+      if (terrain2Ref.current.position.z >= terrainDepth) {
         terrain2Ref.current.position.z = -terrainDepth * 2
+        terrain2Ref.current.scale.z *= -1
+      }
     }
     if (terrain3Ref.current) {
       terrain3Ref.current.position.z += 0.05
-      if (terrain3Ref.current.position.z >= terrainDepth)
+      if (terrain3Ref.current.position.z >= terrainDepth) {
         terrain3Ref.current.position.z = -terrainDepth * 2
+        terrain3Ref.current.scale.z *= -1
+      }
     }
   }, [terrainDepth])
 
@@ -132,7 +138,7 @@ const ScrollingTerrain = () => {
       />
       <Terrain
         color={redish}
-        scale={[terrainDepth, 5, terrainDepth]}
+        scale={[terrainDepth, 5, -terrainDepth]}
         ref={terrain2Ref}
         position={[0, 0, -terrainDepth]}
       />
