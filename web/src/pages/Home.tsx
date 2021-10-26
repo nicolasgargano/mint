@@ -13,8 +13,9 @@ import { useControls } from "leva"
 import { Terrain } from "../components/Terrain"
 import { redish } from "../util/colors"
 // @ts-ignore
-import { BlendFunction } from "postprocessing"
+import { BlendFunction, BlurPass, Resizer, KernelSize } from "postprocessing"
 import {
+  Bloom,
   ChromaticAberration,
   EffectComposer,
 } from "@react-three/postprocessing"
@@ -27,6 +28,14 @@ export const Home = () => {
         <HomeScene />
       </Suspense>
       <EffectComposer>
+        <Bloom
+          intensity={1.0} // The bloom intensity.
+          width={Resizer.AUTO_SIZE} // render width
+          height={Resizer.AUTO_SIZE} // render height
+          kernelSize={KernelSize.LARGE} // blur kernel size
+          luminanceThreshold={0.9} // luminance threshold. Raise this value to mask out darker elements in the scene.
+          luminanceSmoothing={0.025} // smoothness of the luminance threshold. Range is [0, 1]
+        />
         <ChromaticAberration
           blendFunction={BlendFunction.NORMAL}
           offset={new Vector2(0.001, 0.001)}
